@@ -125,26 +125,23 @@ const UserSignUp = () => {
 
         </form>
 
-        {/* Login Link */}
-        <p className="text-center mt-6 text-gray-600">
-          Already have an account?{" "}
-          <Link
-            to="/user-login"
-            className="text-blue-600 font-semibold hover:underline"
-          >
-            Login
-          </Link>
-        </p>
-      </div>
+        {/* Disclaimer */}
+          <p className="text-[13px] text-gray-500 leading-5 mt-5">
+            By proceeding, you consent to get calls, WhatsApp or SMS messages,
+            including by automated means, from Uber and its affiliates to the
+            number provided.
+          </p>
 
-      {/* Captain Button */}
-      <div className="mb-5">
-        <Link
-          to="/captain-signup"
-          className="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-lg font-semibold transition-all"
-        >
-          Register as Captain
-        </Link>
+          {/* Login Link */}
+          <p className="text-center mt-6 text-gray-600">
+            Already have an account?{" "}
+            <Link
+              to="/user-login"
+              className="font-semibold text-blue-600 hover:underline"
+            >
+              Login
+            </Link>
+          </p>
       </div>
 
     </div>
