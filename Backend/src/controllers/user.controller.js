@@ -10,6 +10,12 @@ const registerUser = async(req,res,next)=>{
         }
         const { firstName, lastName, email, password } = req.body;
 
+        const isUserExist = await userModel.findOne({ email });
+        
+        if (isUserExist) {
+            return res.status(400).json({ message: 'User with this email already exists' });
+        }
+
         const hashedPassword = await userModel.hashPassword(password);
 
         const user = await userService.createUser({
@@ -76,7 +82,13 @@ res.status(200).json(req.user);
 
 const logoutUser = async(req,res,next) =>{
     res.clearCookie('token');
-    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+    const token = req.cookies.token ||   (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+
+    if (!token) {
+    return res.status(401).json({
+        message: "Unauthorized"
+    });
+}
     await blackList.create({token});
     res.status(200).json({message :'Logged Out'});
 }

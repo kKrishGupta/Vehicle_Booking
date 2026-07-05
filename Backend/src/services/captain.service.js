@@ -1,0 +1,50 @@
+const captainModel = require("../models/captain.model");
+
+const createCaptain = async ({
+    firstName,
+    lastName,
+    email,
+    password,
+    color,
+    plate,
+    capacity,
+    vehicleType
+}) => {
+
+    if (
+        !firstName ||
+        !email ||
+        !password ||
+        !color ||
+        !plate ||
+        !capacity ||
+        !vehicleType
+    ) {
+        throw new Error("All fields are required");
+    }
+
+    const existingCaptain = await captainModel.findOne({ email });
+
+    if (existingCaptain) {
+        throw new Error("Captain with this email already exists");
+    }
+
+    const captain = await captainModel.create({
+        firstName,
+        lastName,
+        email,
+        password,
+        vehicle: {
+            color,
+            plate,
+            capacity
+        },
+        vehicleType
+    });
+
+    return captain;
+};
+
+module.exports = {
+    createCaptain
+};
