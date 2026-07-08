@@ -1,53 +1,44 @@
-import React from "react";
+import React,{useState} from 'react'
+import logo from "../assets/uber-logo.png";
 import { Link } from "react-router-dom";
-import { FaArrowRightLong } from "react-icons/fa6";
+import map from "../assets/map.jpg";
 
 const Home = () => {
+  const [pickup, setPickup] = useState('');
+  const [destination , setDestination] = useState('');
+  const[panelOpen, setPanelOpen] = useState(false);
+  const submitHandler = (e) =>{
+    e.preventDefault();
+  }
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className='h-screen relative'>
+      <img className = 'w-16 absolute left-5 top-5'src={logo} alt="" />
+      <div className='h-screen w-full '>
+        <img className='w-full h-full object-cover'src={map} alt="" />
+      </div>
 
-      {/* Background Image */}
-      <img
-        className="absolute inset-0 h-full w-full object-cover"
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLDPM7crlb2spSPlTmbIk4_fMwz7bk9k2rLLEMgVRiqq40AM4k3Pok6Ijc&s=10"
-        alt="Background"
-      />
+      <div className='flex flex-col justify-end h-screen absolute top-0 w-full '>
+       
+        <div className='h-[30%] p-5 bg-white relative'>
+          <h4 className='text-2xl font-semibold'>Find a trip </h4>
+        <form onSubmit = {(e) =>{
+          submitHandler(e);
+        }}>
+          <div className="line absolute h-16 w-1 top-[45%] left-10 bg-gray-900 rounded-full "></div>
+          <input value={pickup} onChange={(e) => setPickup(e.target.value)} onClick={() => {setPanelOpen(true)}} className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5' type="text" placeholder='Add a pick-up location' />
+          
+          <input value={destination} onChange={(e) => setDestination(e.target.value)} className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3' type="text" placeholder='Enter your destination' />
+        </form>
+        </div>
 
-      {/* Uber Logo */}
-      <img
-        className="absolute top-8 left-8 w-24 z-10"
-        src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-        alt="Uber Logo"
-      />
+        <div className='h-0 bg-red-500'>
 
-      {/* Bottom Card */}
-  <div className="absolute bottom-0 left-0 w-full bg-white rounded-t-3xl p-7 z-10 shadow-2xl">
+        </div>
 
-  <h2 className="text-[34px] font-bold leading-tight text-gray-900">
-    Get Started with Uber
-  </h2>
 
-  <p className="text-gray-500 mt-2 mb-7">
-    Ride anywhere. Anytime.
-  </p>
-
-  <Link
-    to="/user-login"
-    className="group flex items-center justify-between w-full bg-black px-6 py-4 rounded-2xl transition-all duration-300 hover:bg-neutral-800"
-  >
-    <span className="text-white text-lg font-semibold">
-      Continue
-    </span>
-
-    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
-      <FaArrowRightLong className="text-black text-lg" />
+      </div>
     </div>
-  </Link>
+  )
+}
 
-  </div>
-
-    </div>
-  );
-};
-
-export default Home;
+export default Home

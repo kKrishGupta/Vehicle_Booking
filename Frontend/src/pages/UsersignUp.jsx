@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import logo from "../assets/uber-logo.png";
+import { UserDataContext } from "../context/UserContext";
 
 const UserSignUp = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +12,9 @@ const UserSignUp = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserDataContext);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -17,10 +22,24 @@ const UserSignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    const newUser = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+    };
 
-    console.log(formData);
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/register`, newUser);
+    if (response.status === 201) {
+     const data = response.data;
+    localStorage.setItem("token", data.token);
+    setUser(data.user);
+    navigate("/user-home");
+    } else {
+      alert("Registration failed. Please try again.");
+    }
 
     setFormData({
       firstName: "",
@@ -31,120 +50,121 @@ const UserSignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-white p-7">
+   <div className="min-h-screen bg-white flex justify-center">
+  <div className="w-full max-w-md px-7 py-8 flex flex-col justify-between">
 
-      <div>
-        {/* Logo */}
-        <img
-          src={logo}
-          alt="Uber"
-          className="w-20 mb-10"
-        />
+    {/* Logo */}
+    <img
+      src={logo}
+      alt="Uber"
+      className="w-20 mb-8"
+    />
 
-        {/* Signup Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+    <div>
 
-          {/* First & Last Name */}
-          <div className="flex gap-4">
+      <h1 className="text-4xl font-bold mb-8">
+        Create your account
+      </h1>
 
-            <div className="w-1/2">
-              <h3 className="text-lg font-semibold mb-2">
-                First Name
-              </h3>
+      <form onSubmit={handleSubmit} className="space-y-6">
 
-              <input
-                type="text"
-                name="firstName"
-                placeholder="John"
-                required
-                value={formData.firstName}
-                onChange={handleChange}
-                className="w-full bg-gray-100 rounded-lg px-4 py-3 border outline-none focus:border-black"
-              />
-            </div>
+        {/* Name */}
+        <div>
+          <label className="block text-base font-semibold mb-2">
+            What's your name?
+          </label>
 
-            <div className="w-1/2">
-              <h3 className="text-lg font-semibold mb-2">
-                Last Name
-              </h3>
-
-              <input
-                type="text"
-                name="lastName"
-                placeholder="Doe"
-                required
-                value={formData.lastName}
-                onChange={handleChange}
-                className="w-full bg-gray-100 rounded-lg px-4 py-3 border outline-none focus:border-black"
-              />
-            </div>
-
-          </div>
-
-          {/* Email */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2">
-              What's your email?
-            </h3>
+          <div className="flex gap-3">
 
             <input
-              type="email"
-              name="email"
-              placeholder="email@example.com"
-              required
-              value={formData.email}
+              type="text"
+              name="firstName"
+              placeholder="First name"
+              value={formData.firstName}
               onChange={handleChange}
-              className="w-full bg-gray-100 rounded-lg px-4 py-3 border outline-none focus:border-black"
+              required
+              className="w-1/2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none transition-all focus:border-black focus:bg-white focus:ring-2 focus:ring-black/10"
             />
-          </div>
-
-          {/* Password */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2">
-              Create Password
-            </h3>
 
             <input
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              required
-              value={formData.password}
+              type="text"
+              name="lastName"
+              placeholder="Last name"
+              value={formData.lastName}
               onChange={handleChange}
-              className="w-full bg-gray-100 rounded-lg px-4 py-3 border outline-none focus:border-black"
+              required
+              className="w-1/2 rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none transition-all focus:border-black focus:bg-white focus:ring-2 focus:ring-black/10"
             />
+
           </div>
+        </div>
 
-          {/* Signup Button */}
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-3 rounded-xl text-lg font-semibold hover:bg-neutral-900 transition"
-          >
-            Create Account
-          </button>
+        {/* Email */}
+        <div>
+          <label className="block text-base font-semibold mb-2">
+            What's your email?
+          </label>
 
-        </form>
+          <input
+            type="email"
+            name="email"
+            placeholder="email@example.com"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none transition-all focus:border-black focus:bg-white focus:ring-2 focus:ring-black/10"
+          />
+        </div>
 
-        {/* Disclaimer */}
-          <p className="text-[13px] text-gray-500 leading-5 mt-5">
-            By proceeding, you consent to get calls, WhatsApp or SMS messages,
-            including by automated means, from Uber and its affiliates to the
-            number provided.
-          </p>
+        {/* Password */}
+        <div>
+          <label className="block text-base font-semibold mb-2">
+            Create Password
+          </label>
 
-          {/* Login Link */}
-          <p className="text-center mt-6 text-gray-600">
-            Already have an account?{" "}
-            <Link
-              to="/user-login"
-              className="font-semibold text-blue-600 hover:underline"
-            >
-              Login
-            </Link>
-          </p>
-      </div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Minimum 8 characters"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="w-full rounded-xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none transition-all focus:border-black focus:bg-white focus:ring-2 focus:ring-black/10"
+          />
+        </div>
+
+        {/* Button */}
+        <button
+          type="submit"
+          className="w-full rounded-xl bg-black py-4 text-lg font-semibold text-white transition-all duration-300 hover:bg-neutral-900 active:scale-[0.98]"
+        >
+          Create Account
+        </button>
+
+      </form>
+
+      {/* Disclaimer */}
+      <p className="mt-5 text-xs leading-5 text-gray-500">
+        By proceeding, you consent to receive calls, WhatsApp or SMS messages,
+        including by automated means, from Uber and its affiliates to the
+        number provided.
+      </p>
+
+      {/* Login */}
+      <p className="mt-6 text-center text-gray-600">
+        Already have an account?{" "}
+        <Link
+          to="/user-login"
+          className="font-semibold text-black hover:underline"
+        >
+          Login
+        </Link>
+      </p>
 
     </div>
+
+  </div>
+</div>
   );
 };
 

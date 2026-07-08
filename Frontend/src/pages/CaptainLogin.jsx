@@ -1,17 +1,46 @@
-import React,{useState} from "react";
+import React,{useState, useContext} from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/uber-driver.png"; // Replace with your logo path
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import {CaptainDataContext} from "../context/CaptainContext.jsx";
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [captainData, setCaptainData] = useState({});
+
+  const navigate = useNavigate();
+  const {captain, setCaptain} = useContext(CaptainDataContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setCaptainData({ email:email,password: password });
-    console.log(captainData);
-    setEmail("");
-    setPassword("");
+
+    const captainData = {
+      email: email,
+      password: password,
+    };
+
+    const response = axios.post(`${import.meta.env.VITE_API_BASE_URL}/captains/login`, captainData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        const data = response.data;
+        localStorage.setItem("token", data.token);
+        setCaptain(data.captain);
+        navigate("/captain-home");
+      } else {
+        alert("Login failed. Please try again.");
+      }
+    })
+    .catch((error) => {
+      console.error(error.response?.data || error.message);
+      alert(error.response?.data?.message || "Login Failed");
+    });
   }
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white p-7">
