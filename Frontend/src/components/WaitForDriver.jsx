@@ -1,17 +1,17 @@
-import React from "react";
-import car from "../assets/car.jpg";
+import React from 'react'
 import { FiChevronDown } from "react-icons/fi";
+import car from "../assets/car.jpg";
 import { MapPin } from "lucide-react";
 import { FaMoneyBillWave } from "react-icons/fa";
 
-const ConfirmRide = (props) => {
-  return (
 
+const WaitForDriver = (props) => {
+  return (
     <div className="relative bg-white rounded-t-3xl px-5 pt-8 pb-5">
 
       {/* Drag Handle */}
       <div
-        onClick={() => props.setConfirmRidePanel(false)}
+        onClick={() => props.setWaitingForDriver(false)}
         className="absolute top-2 left-0 w-full flex justify-center cursor-pointer"
       >
         <FiChevronDown size={26} className="text-gray-500" />
@@ -19,17 +19,8 @@ const ConfirmRide = (props) => {
 
       {/* Heading */}
       <h2 className="text-2xl font-bold mb-5">
-        Confirm your Ride
+        Meeting at a point
       </h2>
-
-      {/* Car */}
-      <div className="flex justify-center mb-6">
-        <img
-          src={car}
-          alt="Car"
-          className="h-20 object-contain"
-        />
-      </div>
 
       {/* Pickup */}
       <div className="flex items-center gap-4 py-4 border-t border-gray-200">
@@ -80,15 +71,12 @@ const ConfirmRide = (props) => {
       </div>
 
       {/* Confirm Button */}
-      <button onClick={() => {
-          props.setConfirmRidePanel(false);
-          props.setVehicleFound(true);
-        }} className="w-full mt-6 bg-[#4CAF50] hover:bg-[#43A047] text-white font-semibold py-3 rounded-md transition">
+      {/* <button className="w-full mt-6 bg-[#4CAF50] hover:bg-[#43A047] text-white font-semibold py-3 rounded-md transition">
         Confirm
-      </button>
+      </button> */}
 
     </div>
-  );
-};
+  )
+}
 
-export default ConfirmRide;
+export default WaitForDriver

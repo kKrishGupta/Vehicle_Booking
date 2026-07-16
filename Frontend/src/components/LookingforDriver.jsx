@@ -1,17 +1,15 @@
-import React from "react";
-import car from "../assets/car.jpg";
+import React from 'react'
 import { FiChevronDown } from "react-icons/fi";
+import car from "../assets/car.jpg";
 import { MapPin } from "lucide-react";
 import { FaMoneyBillWave } from "react-icons/fa";
-
-const ConfirmRide = (props) => {
+const LookingforDriver = (props) => {
   return (
-
     <div className="relative bg-white rounded-t-3xl px-5 pt-8 pb-5">
 
       {/* Drag Handle */}
       <div
-        onClick={() => props.setConfirmRidePanel(false)}
+        onClick={() => props.setVehicleFound(false)}
         className="absolute top-2 left-0 w-full flex justify-center cursor-pointer"
       >
         <FiChevronDown size={26} className="text-gray-500" />
@@ -19,7 +17,7 @@ const ConfirmRide = (props) => {
 
       {/* Heading */}
       <h2 className="text-2xl font-bold mb-5">
-        Confirm your Ride
+        Looking For a  Driver
       </h2>
 
       {/* Car */}
@@ -80,15 +78,12 @@ const ConfirmRide = (props) => {
       </div>
 
       {/* Confirm Button */}
-      <button onClick={() => {
-          props.setConfirmRidePanel(false);
-          props.setVehicleFound(true);
-        }} className="w-full mt-6 bg-[#4CAF50] hover:bg-[#43A047] text-white font-semibold py-3 rounded-md transition">
+      {/* <button className="w-full mt-6 bg-[#4CAF50] hover:bg-[#43A047] text-white font-semibold py-3 rounded-md transition">
         Confirm
-      </button>
+      </button> */}
 
     </div>
-  );
-};
+  )
+}
 
-export default ConfirmRide;
+export default LookingforDriver;

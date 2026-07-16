@@ -4,11 +4,12 @@ import car from "../assets/car.jpg";
 import bike from "../assets/bike.jpg"
 import auto from "../assets/auto.jpg";
 import { FaUser } from "react-icons/fa";
-const VehiclePanel = ({setVehiclePanel}) => {
+
+const VehiclePanel = (props) => {
   return (
     <div>
         <h5 onClick={() =>{
-      setVehiclePanel(false)
+      props.setVehiclePanel(false)
     }}className="absolute top-0 left-0 w-[93%] py-3 flex justify-center  items-center">
     <FiChevronDown size={26} className="text-gray-200" />
     </h5>
@@ -17,7 +18,9 @@ const VehiclePanel = ({setVehiclePanel}) => {
 </h2>
 
 {/* car */}
-  <div className="flex items-center justify-between border border-gray-600 rounded-2xl p-3 hover:bg-gray-50 transition mt-3">
+  <div onClick={() =>{
+    props.setConfirmRidePanel(true)
+  }} className="flex items-center justify-between border border-gray-600 rounded-2xl p-3 hover:bg-gray-50 transition mt-3">
 
     {/* Car Image */}
     <img
@@ -57,7 +60,9 @@ const VehiclePanel = ({setVehiclePanel}) => {
   </div>
 
 {/* bike */}
-  <div className="flex items-center justify-between border border-gray-600 rounded-2xl p-3 hover:bg-gray-50 transition mt-3">
+  <div onClick={() =>{
+    props.setConfirmRidePanel(true)
+  }} className="flex items-center justify-between border border-gray-600 rounded-2xl p-3 hover:bg-gray-50 transition mt-3">
 
     {/* Car Image */}
     <img
@@ -95,7 +100,9 @@ const VehiclePanel = ({setVehiclePanel}) => {
   </div>
 
   {/* auto */}
-  <div className="flex items-center justify-between border border-gray-600 rounded-2xl p-3 hover:bg-gray-50 transition mt-3">
+  <div onClick={() =>{
+    props.setConfirmRidePanel(true)
+  }} className="flex items-center justify-between border border-gray-600 rounded-2xl p-3 hover:bg-gray-50 transition mt-3">
 
     {/* Car Image */}
     <img
